@@ -9,31 +9,29 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Set up Python version
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
       - name: Install dependencies
-        working-directory: ./demo
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Upload artifact for deployment
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: python-app
           path: |
-            demo/*
-            !demo/antenv/
-            !demo/.github/
+            app.py
+            requirements.txt
+            runtime.txt
 
   deploy:
     runs-on: ubuntu-latest
@@ -50,5 +48,5 @@ jobs:
         with:
           app-name: 'web-app-159'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_53224D8383114D95A1A602F7A3DC9E74 }}
           package: .
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_53224D8383114D95A1A602F7A3DC9E74 }}

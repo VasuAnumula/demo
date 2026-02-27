@@ -37,7 +37,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: python-app
-          path: ./
+          path: |
+            .
             !antenv/
 
       # 🚫 Opting Out of Oryx Build
@@ -63,4 +64,3 @@ jobs:
           app-name: 'gm-webapp-dev-159357'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_AD2B7F7A8E2B408F81CAECBA1CAA187D }}
-          package: .
